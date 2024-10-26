@@ -31,11 +31,7 @@ export const robotoMono = Roboto_Mono({
   variable: "--font-roboto-mono",
 })
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <TightLayout
       ProvidersComponent={Providers}
@@ -50,3 +46,5 @@ export default function RootLayout({
     </TightLayout>
   )
 }
+
+export default RootLayout
