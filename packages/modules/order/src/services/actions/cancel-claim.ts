@@ -5,29 +5,7 @@ import {
   OrderTypes,
 } from "@medusajs/framework/types"
 import { ChangeActionType, promiseAll } from "@medusajs/framework/utils"
-
-async function createOrderChange(
-  service,
-  data,
-  claimOrder,
-  actions,
-  sharedContext
-) {
-  return await service.createOrderChange_(
-    {
-      order_id: claimOrder.order_id,
-      claim_id: claimOrder.id,
-      reference: "claim",
-      reference_id: claimOrder.id,
-      description: data.description,
-      internal_note: data.internal_note,
-      created_by: data.created_by,
-      metadata: data.metadata,
-      actions,
-    },
-    sharedContext
-  )
-}
+import { createOrderChange } from "./shared/create-order-change"
 
 export async function cancelClaim(
   this: any,
@@ -87,7 +65,7 @@ export async function cancelClaim(
       action: ChangeActionType.SHIPPING_REMOVE,
       order_id: claimOrder.order_id,
       claim_id: claimOrder.id,
-      reference: "claim",
+      reference: "claim", 
       reference_id: shipping.id,
       amount: shipping.raw_amount ?? shipping.amount,
     })
@@ -98,7 +76,8 @@ export async function cancelClaim(
     data,
     claimOrder,
     actions,
-    sharedContext
+    sharedContext,
+    'claim'
   )
 
   await promiseAll([
