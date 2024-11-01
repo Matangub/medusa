@@ -5,29 +5,7 @@ import {
   OrderTypes,
 } from "@medusajs/framework/types"
 import { ChangeActionType, promiseAll } from "@medusajs/framework/utils"
-
-async function createOrderChange(
-  service,
-  data,
-  exchangeOrder,
-  actions,
-  sharedContext
-) {
-  return await service.createOrderChange_(
-    {
-      order_id: exchangeOrder.order_id,
-      exchange_id: exchangeOrder.id,
-      reference: "exchange",
-      reference_id: exchangeOrder.id,
-      description: data.description,
-      internal_note: data.internal_note,
-      created_by: data.created_by,
-      metadata: data.metadata,
-      actions,
-    },
-    sharedContext
-  )
-}
+import { createOrderChange } from "./shared/create-order-change"
 
 export async function cancelExchange(
   this: any,
@@ -83,7 +61,8 @@ export async function cancelExchange(
     data,
     exchangeOrder,
     actions,
-    sharedContext
+    sharedContext,
+    'exchange'
   )
 
   await promiseAll([

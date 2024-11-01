@@ -5,29 +5,7 @@ import {
   ReturnDTO,
 } from "@medusajs/framework/types"
 import { ChangeActionType, promiseAll } from "@medusajs/framework/utils"
-
-async function createOrderChange(
-  service,
-  data,
-  returnRef,
-  actions,
-  sharedContext
-) {
-  return await service.createOrderChange_(
-    {
-      order_id: returnRef.order_id,
-      return_id: returnRef.id,
-      reference: "return",
-      reference_id: returnRef.id,
-      description: data.description,
-      internal_note: data.internal_note,
-      created_by: data.created_by,
-      metadata: data.metadata,
-      actions,
-    },
-    sharedContext
-  )
-}
+import { createOrderChange } from "./shared/create-order-change"
 
 export async function cancelReturn(
   this: any,
@@ -81,7 +59,8 @@ export async function cancelReturn(
     data,
     returnOrder,
     actions,
-    sharedContext
+    sharedContext,
+    'return'
   )
 
   await promiseAll([

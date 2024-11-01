@@ -13,6 +13,7 @@ import {
   promiseAll,
 } from "@medusajs/framework/utils"
 import { Return, ReturnItem } from "@models"
+import { createOrderChange } from "./shared/create-order-change"
 
 function createReturnReference(em, data, order) {
   return em.create(Return, {
@@ -103,30 +104,6 @@ async function processShippingMethod(
   }
 }
 
-async function createOrderChange(
-  service,
-  data,
-  returnRef,
-  actions,
-  sharedContext
-) {
-  return await service.createOrderChange_(
-    {
-      order_id: data.order_id,
-      return_id: returnRef.id,
-      change_type: OrderChangeType.RETURN_REQUEST,
-      reference: "return",
-      reference_id: returnRef.id,
-      description: data.description,
-      internal_note: data.internal_note,
-      created_by: data.created_by,
-      metadata: data.metadata,
-      actions,
-    },
-    sharedContext
-  )
-}
-
 export async function createReturn(
   this: any,
   data: OrderTypes.CreateOrderReturnDTO,
@@ -151,7 +128,8 @@ export async function createReturn(
     data,
     returnRef,
     actions,
-    sharedContext
+    sharedContext,
+    'return'
   )
 
   await promiseAll([
